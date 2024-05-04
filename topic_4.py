@@ -84,12 +84,16 @@ def get_upcoming_birthdays(users):
         number_day_of_week_user_birthday = birthday.weekday()
         birthday_this_year = birthday.replace(year=today.year)
         
-        if (today.month, today.day) > (birthday.month, birthday.day):
-            continue
-        elif birthday_this_year < today:
-            continue
-        elif number_day_of_week_user_birthday != number_day_of_week_today in [5,6]:
-            congratulation_date_of_this_week.update({})
+        if (birthday_this_year - today).days <= 7:
+            congratulation_date_of_this_week.update({"name": user["name"], "congratulation_date": birthday_this_year})
+            
+            if (birthday_this_year - today).days <= 7:
+                if number_day_of_week_user_birthday != number_day_of_week_today in [5,6]:
+                    congratulation_date_of_this_week.update({})
+            else:
+                congratulation_date_of_this_week.update({"name": user["name"], "congratulation_date": birthday_this_year})
+
+            return congratulation_date_of_this_week
             
 print(get_upcoming_birthdays(users))
 
